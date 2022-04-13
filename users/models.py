@@ -12,7 +12,7 @@ class User(models.Model):
     first_name = models.CharField(max_length=MAX_STR_LENGTH)
     last_name = models.CharField(max_length=MAX_STR_LENGTH)
     middle_name = models.CharField(max_length=MAX_STR_LENGTH, null=True, blank=True)
-    email = models.CharField(unique=True, max_length=MAX_STR_LENGTH)
+    email = models.EmailField(unique=True, max_length=MAX_STR_LENGTH)
     birth_date = models.DateField(null=True, blank=True)
     phone = models.CharField(max_length=MAX_STR_LENGTH, null=True, blank=True)
 
@@ -43,112 +43,86 @@ class Session(models.Model):
         db_table = 'session'
 
 
-class Role(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    name = models.TextField(max_length=MAX_STR_LENGTH, unique=True)
-    description = models.TextField(null=True, blank=True)
-
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        db_table = 'role'
-
-
-class UserToRole(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
-    role = models.ForeignKey(Role, on_delete=models.PROTECT)
-
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return f'{self.user} - {self.role}'
-
-    class Meta:
-        db_table = 'user_to_role'
-        unique_together = ('user', 'role')
-
-
-class TargetGroup(models.Model):
-    name = models.TextField(max_length=MAX_STR_LENGTH, unique=True)
-    description = models.TextField(null=True, blank=True)
-
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        db_table = 'target_group'
-
-
-class UserToTargetGroup(models.Model):
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
-    target_group = models.ForeignKey(TargetGroup, on_delete=models.PROTECT)
-
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return f'{self.user} - {self.target_group}'
-
-    class Meta:
-        db_table = 'user_to_target_group'
-        unique_together = ('user', 'target_group')
-
-
-class Notification(models.Model):
-    title = models.TextField()
-    text = models.TextField()
-    date = models.DateField()
-    target_groups = models.ManyToManyField(TargetGroup, through='NotificationToTargetGroup', null=True, blank=True)
-    users = models.ManyToManyField(User, through='NotificationToUser', null=True, blank=True)
-
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.title
-
-    class Meta:
-        db_table = 'notification'
-
-
-class NotificationToTargetGroup(models.Model):
-    notification = models.ForeignKey(Notification, on_delete=models.PROTECT)
-    target_group = models.ForeignKey(TargetGroup, on_delete=models.PROTECT)
-
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return f'{self.notification}, {self.target_group}'
-
-    class Meta:
-        db_table = 'notification_to_target_group'
-        unique_together = ('notification', 'target_group')
-
-
-class NotificationToUser(models.Model):
-    notification = models.ForeignKey(Notification, on_delete=models.PROTECT)
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
-    is_read = models.BooleanField()
-
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return f'{self.notification} - {self.user}'
-
-    class Meta:
-        db_table = 'notification_to_user'
-        unique_together = ('notification', 'user')
-
-
-
+#
+# class Application(models.Model):
+#
+#
+#
+# class TargetGroup(models.Model):
+#     name = models.TextField(max_length=MAX_STR_LENGTH, unique=True)
+#     description = models.TextField(null=True, blank=True)
+#
+#     created = models.DateTimeField(auto_now_add=True)
+#     updated = models.DateTimeField(auto_now=True)
+#
+#     def __str__(self):
+#         return self.name
+#
+#     class Meta:
+#         db_table = 'target_group'
+#
+#
+# class UserToTargetGroup(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.PROTECT)
+#     target_group = models.ForeignKey(TargetGroup, on_delete=models.PROTECT)
+#
+#     created = models.DateTimeField(auto_now_add=True)
+#     updated = models.DateTimeField(auto_now=True)
+#
+#     def __str__(self):
+#         return f'{self.user} - {self.target_group}'
+#
+#     class Meta:
+#         db_table = 'user_to_target_group'
+#         unique_together = ('user', 'target_group')
+#
+#
+# class Notification(models.Model):
+#     title = models.TextField()
+#     text = models.TextField()
+#     date = models.DateField()
+#     target_groups = models.ManyToManyField(TargetGroup, through='NotificationToTargetGroup', null=True, blank=True)
+#     users = models.ManyToManyField(User, through='NotificationToUser', null=True, blank=True)
+#
+#     created = models.DateTimeField(auto_now_add=True)
+#     updated = models.DateTimeField(auto_now=True)
+#
+#     def __str__(self):
+#         return self.title
+#
+#     class Meta:
+#         db_table = 'notification'
+#
+#
+# class NotificationToTargetGroup(models.Model):
+#     notification = models.ForeignKey(Notification, on_delete=models.PROTECT)
+#     target_group = models.ForeignKey(TargetGroup, on_delete=models.PROTECT)
+#
+#     created = models.DateTimeField(auto_now_add=True)
+#     updated = models.DateTimeField(auto_now=True)
+#
+#     def __str__(self):
+#         return f'{self.notification}, {self.target_group}'
+#
+#     class Meta:
+#         db_table = 'notification_to_target_group'
+#         unique_together = ('notification', 'target_group')
+#
+#
+# class NotificationToUser(models.Model):
+#     notification = models.ForeignKey(Notification, on_delete=models.PROTECT)
+#     user = models.ForeignKey(User, on_delete=models.PROTECT)
+#     is_read = models.BooleanField()
+#
+#     created = models.DateTimeField(auto_now_add=True)
+#     updated = models.DateTimeField(auto_now=True)
+#
+#     def __str__(self):
+#         return f'{self.notification} - {self.user}'
+#
+#     class Meta:
+#         db_table = 'notification_to_user'
+#         unique_together = ('notification', 'user')
+#
+#
+#
