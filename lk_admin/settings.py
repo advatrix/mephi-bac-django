@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'users',
     'notifications',
     'role_model',
-    'documents'
+    'documents',
+    'data_sync'
 ]
 
 MIDDLEWARE = [
