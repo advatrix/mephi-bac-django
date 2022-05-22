@@ -6,6 +6,7 @@ from users.models import *
 from notifications.models import UserToNotificationGroup
 from role_model.models import UserToRole
 from role_model.admin import PermissionToUserInline
+from exam.admin import UserToStudyGroupInline
 
 # Register your models here.
 
@@ -23,7 +24,7 @@ class UserToRoleInline(admin.TabularInline):
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     search_fields = ['username']
-    inlines = (UserToNotificationGroupInline, UserToRoleInline, PermissionToUserInline)
+    inlines = (UserToNotificationGroupInline, UserToRoleInline, PermissionToUserInline, UserToStudyGroupInline)
 
 
 @admin.register(Session)

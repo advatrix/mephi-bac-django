@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'notifications',
     'role_model',
     'documents',
-    'data_sync'
+    'data_sync',
+    'exam'
 ]
 
 MIDDLEWARE = [

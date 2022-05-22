@@ -2,6 +2,7 @@ from django.db import models
 import uuid
 
 from lk_admin.settings import MAX_STR_LENGTH
+
 # Create your models here.
 
 
@@ -32,6 +33,22 @@ class SimpleDataTable(models.Model):
 
     class Meta:
         db_table = 'simple_data_table'
+
+
+class News(models.Model):
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True)
+    name = models.CharField(max_length=MAX_STR_LENGTH)
+    title = models.CharField(max_length=MAX_STR_LENGTH)
+    description = models.TextField()
+    body = models.TextField()
+    priority = models.IntegerField(null=True, blank=True)
+    date = models.CharField(max_length=MAX_STR_LENGTH, null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        db_table = 'news'
 
 
 class ExternalApplicationToken(models.Model):

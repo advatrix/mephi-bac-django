@@ -13,3 +13,13 @@ class EntityTemplateAdmin(admin.ModelAdmin):
 @admin.register(SimpleDataTable)
 class SimpleDataTableAdmin(admin.ModelAdmin):
     list_display = ['__str__', 'id', 'integer', 'optional_string', 'float']
+
+
+@admin.register(ExternalApplicationToken)
+class ExternalApplicationTokenAdmin(admin.ModelAdmin):
+    list_display = ['__str__', 'token', 'description']
+
+
+@admin.register(News)
+class NewsAdmin(admin.ModelAdmin):
+    list_display = ['__str__', 'name', 'title', 'priority', 'date']

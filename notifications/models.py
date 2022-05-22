@@ -3,6 +3,8 @@ import uuid
 from django.db import models
 from lk_admin.settings import MAX_STR_LENGTH
 
+from django.utils.translation import gettext_lazy as _
+
 from users.models import User
 
 # Create your models here.
@@ -57,6 +59,9 @@ class Notification(models.Model):
 
     class Meta:
         db_table = 'notification'
+        verbose_name = _('notification')
+        verbose_name_plural = _('notifications')
+
 
 
 class NotificationToNotificationGroup(models.Model):

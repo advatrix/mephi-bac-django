@@ -24,7 +24,7 @@ class Role(models.Model):
 
 
 class UserToRole(models.Model):
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     role = models.ForeignKey(Role, on_delete=models.PROTECT)
 
     created = models.DateTimeField(auto_now_add=True)
