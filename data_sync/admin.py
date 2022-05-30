@@ -20,6 +20,4 @@ class ExternalApplicationTokenAdmin(admin.ModelAdmin):
     list_display = ['__str__', 'token', 'description']
 
 
-@admin.register(News)
-class NewsAdmin(admin.ModelAdmin):
-    list_display = ['__str__', 'name', 'title', 'priority', 'date']
+admin.site.register(News)
